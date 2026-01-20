@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - SolarLearn</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="sidebar">
+            <h2>SolarLearn</h2>
+            <a href="home.html" style="background: var(--eclipse-gold); color: black;">Home</a>
+            <a href="learning.html">Learning Module</a>
+            <a href="assessment.html">Assessment</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="index.html" style="margin-top: auto; color: #ff6b6b;">Logout</a>
+        </nav>
+
+        <main class="main-content">
+            <h1>Welcome, Explorer!</h1>
+            <p>Ready to discover the universe today?</p>
+
+            <div class="marquee-container">
+                <div class="marquee-text">
+                    Word of the Day: **Umbra** - The fully shaded inner region of a shadow cast by an opaque object, especially the area on the earth or moon experiencing the total phase of an eclipse.
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="glass-panel" style="width: auto;">
+                    <h3>Course Progress</h3>
+                    <p>Solar System: <strong>0%</strong></p>
+                    <div style="background: #333; height: 10px; border-radius: 5px;">
+                        <div style="background: var(--eclipse-gold); width: 5%; height: 100%; border-radius: 5px;"></div>
+                    </div>
+                </div>
+                
+                <div class="glass-panel" style="width: auto;">
+                    <h3>Start Learning</h3>
+                    <p>Lesson 1: Solar System Overview</p>
+                    <a href="learning.html"><button style="padding: 5px 15px; font-size: 0.8rem;">Go to Class</button></a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

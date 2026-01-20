@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback - SolarLearn</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="sidebar">
+            <h2>SolarLearn</h2>
+            <a href="home.html">Home</a>
+            <a href="learning.html">Learning Module</a>
+            <a href="assessment.html">Assessment</a>
+            <a href="feedback.html" style="background: var(--eclipse-gold); color: black;">Feedback</a>
+        </nav>
+
+        <main class="main-content">
+            <h1>We value your thoughts</h1>
+            <p>How was your journey through the Solar System?</p>
+            
+            <div class="glass-panel">
+                <h3>Rate the Course</h3>
+                
+                <div class="star-rating">
+                    <input type="radio" name="rating" id="star5" value="5"><label for="star5">&#9733;</label>
+                    <input type="radio" name="rating" id="star4" value="4"><label for="star4">&#9733;</label>
+                    <input type="radio" name="rating" id="star3" value="3"><label for="star3">&#9733;</label>
+                    <input type="radio" name="rating" id="star2" value="2"><label for="star2">&#9733;</label>
+                    <input type="radio" name="rating" id="star1" value="1"><label for="star1">&#9733;</label>
+                </div>
+                
+                <h3>Send us a message</h3>
+                <form>
+                    <input type="text" placeholder="Subject">
+                    <textarea rows="5" placeholder="Your feedback here..." style="width: 100%; box-sizing: border-box; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 5px;"></textarea>
+                    <button type="button" onclick="alert('Thank you for your feedback!')">Send Feedback</button>
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

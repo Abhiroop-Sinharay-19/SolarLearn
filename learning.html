@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Learning - SolarLearn</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="sidebar">
+            <h2>SolarLearn</h2>
+            <a href="home.html">Home</a>
+            <a href="learning.html" style="background: var(--eclipse-gold); color: black;">Learning Module</a>
+            <a href="assessment.html">Assessment</a>
+            <a href="feedback.html">Feedback</a>
+        </nav>
+
+        <main class="main-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div>
+                    <h1 id="lesson-title">Loading...</h1>
+                    <p id="lesson-counter" style="color: #aaa;">Lesson 1 of 16</p>
+                </div>
+            </div>
+
+            <div class="glass-panel">
+                <div class="video-wrapper">
+                    <iframe id="video-frame" src="" allowfullscreen></iframe>
+                </div>
+                <p id="lesson-desc" style="margin-top: 20px; line-height: 1.6; text-align: justify;"></p>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; max-width: 800px;">
+                <button id="prev-btn" class="nav-btn" onclick="changeLesson(-1)">&#8592; Previous</button>
+                <button id="next-btn" class="nav-btn" onclick="changeLesson(1)">Next Lesson &#8594;</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const lessons = [
+            { title: "1. The Solar System", desc: "An overview of our cosmic neighborhood.", id: "libKVRa01L8" },
+            { title: "2. Mars 101", desc: "Why is Mars red? Learn about the atmosphere and surface of the Red Planet.", id: "E-PuUs25rJA" },
+            { title: "3. The Sun 101", desc: "The star at the center of our solar system that gives us life.", id: "2HoTK_Gqi2Q" },
+            { title: "4. Mercury 101", desc: "The closest planet to the sun and the smallest in the system.", id: "0KBjnNuhRHs" },
+            { title: "5. Venus 101", desc: "The hottest planet, featuring a runaway greenhouse effect.", id: "BvXa1n9fjow" },
+            { title: "6. Earth 101", desc: "The only planet known to support life.", id: "HCDVN7DCzYE" },
+            { title: "7. The Moon", desc: "Earth's constant companion and the cause of our tides.", id: "6AviDjR9mmo" },
+            { title: "8. Mars (Detailed)", desc: "A deeper look into Mars mechanics.", id: "E-PuUs25rJA" },
+            { title: "9. Jupiter 101", desc: "The King of Planets. Massive, stormy, and gaseous.", id: "PtkqwslbLY8" },
+            { title: "10. Saturn 101", desc: "Famous for its spectacular and complex ring system.", id: "epZdZaEQhS0" },
+            { title: "11. Uranus 101", desc: "The sideways planet. An ice giant with a unique tilt.", id: "m4NXbFOiOGk" },
+            { title: "12. Neptune 101", desc: "The windy, cold, and distant ice giant.", id: "NStn7zZKXfE" },
+            { title: "13. Pluto 101", desc: "The beloved dwarf planet in the Kuiper Belt.", id: "-iZio70bd-M" },
+            { title: "14. Exoplanets", desc: "Planets orbiting stars other than our Sun.", id: "EUU0-ZpFoK4" },
+            { title: "15. Meteors & Meteorites", desc: "Space rocks: shooting stars and impactors.", id: "zkglsg0K1IY" },
+            { title: "16. Black Holes", desc: "The ultimate gravity wells where not even light escapes.", id: "kOEDG3j1bjs" }
+        ];
+
+        let currentIndex = 0;
+
+        function loadLesson(index) {
+            const lesson = lessons[index];
+            document.getElementById("lesson-title").innerText = lesson.title;
+            document.getElementById("lesson-counter").innerText = `Lesson ${index + 1} of ${lessons.length}`;
+            document.getElementById("lesson-desc").innerText = lesson.desc;
+            document.getElementById("video-frame").src = `https://www.youtube.com/embed/${lesson.id}`;
+
+            document.getElementById("prev-btn").disabled = (index === 0);
+            
+            const nextBtn = document.getElementById("next-btn");
+            if (index === lessons.length - 1) {
+                nextBtn.innerText = "Take Quiz";
+                nextBtn.onclick = function() { window.location.href = 'assessment.html'; };
+            } else {
+                nextBtn.innerText = "Next Lesson \u2192";
+                nextBtn.onclick = function() { changeLesson(1); };
+            }
+        }
+
+        function changeLesson(direction) {
+            currentIndex += direction;
+            loadLesson(currentIndex);
+        }
+
+        window.onload = function() { loadLesson(0); };
+    </script>
+</body>
+</html>

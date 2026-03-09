@@ -4,6 +4,44 @@
     <meta charset="UTF-8">
     <title>Learning - SolarLearn</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* This makes the dropdown look EXACTLY like your main H1 title */
+        .title-dropdown {
+            font-size: 2.5rem; 
+            font-weight: bold;
+            color: var(--eclipse-gold);
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            font-family: inherit;
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 40px;
+            margin: 0;
+            /* Custom dropdown arrow to fit the aesthetic */
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fdca00'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right center;
+            background-size: 2rem;
+        }
+
+        .title-dropdown:hover {
+            opacity: 0.9;
+        }
+
+        /* Styling the options inside the dropdown */
+        .title-dropdown option {
+            background: #050510; /* Dark space background */
+            color: white;
+            font-size: 1.2rem;
+            padding: 10px;
+        }
+
+        .title-container {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-layout">
@@ -13,61 +51,96 @@
             <a href="learning.html" style="background: var(--eclipse-gold); color: black;">Learning Module</a>
             <a href="assessment.html">Assessment</a>
             <a href="feedback.html">Feedback</a>
+            <a href="index.html" style="margin-top: auto; color: #ff6b6b;">Logout</a>
         </nav>
 
         <main class="main-content">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <div>
-                    <h1 id="lesson-title">Loading...</h1>
-                    <p id="lesson-counter" style="color: #aaa;">Lesson 1 of 16</p>
+            
+            <div class="title-container">
+                <select id="mainTopicSelect" class="title-dropdown" onchange="jumpToLesson(this.value)">
+                    </select>
+                <p id="lesson-counter" style="color: #aaa; margin-top: 5px; font-size: 1.1rem;">Lesson 1 of 16</p>
+            </div>
+
+            <div class="glass-panel" style="padding: 20px;">
+                <p id="lesson-desc" style="font-size: 1.1rem; margin-bottom: 20px;">Loading...</p>
+                
+                <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+                    <iframe id="topicVideo" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+                    <button id="prev-btn" onclick="changeLesson(-1)" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.3);">&larr; Previous</button>
+                    <button id="next-btn" onclick="changeLesson(1)">Next Lesson &rarr;</button>
                 </div>
             </div>
 
-            <div class="glass-panel">
-                <div class="video-wrapper">
-                    <iframe id="video-frame" src="" allowfullscreen></iframe>
-                </div>
-                <p id="lesson-desc" style="margin-top: 20px; line-height: 1.6; text-align: justify;"></p>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; max-width: 800px;">
-                <button id="prev-btn" class="nav-btn" onclick="changeLesson(-1)">&#8592; Previous</button>
-                <button id="next-btn" class="nav-btn" onclick="changeLesson(1)">Next Lesson &#8594;</button>
-            </div>
         </main>
     </div>
 
     <script>
+        // Array of all lessons
         const lessons = [
-            { title: "1. The Solar System", desc: "An overview of our cosmic neighborhood.", id: "libKVRa01L8" },
-            { title: "2. Mars 101", desc: "Why is Mars red? Learn about the atmosphere and surface of the Red Planet.", id: "E-PuUs25rJA" },
-            { title: "3. The Sun 101", desc: "The star at the center of our solar system that gives us life.", id: "2HoTK_Gqi2Q" },
-            { title: "4. Mercury 101", desc: "The closest planet to the sun and the smallest in the system.", id: "0KBjnNuhRHs" },
-            { title: "5. Venus 101", desc: "The hottest planet, featuring a runaway greenhouse effect.", id: "BvXa1n9fjow" },
-            { title: "6. Earth 101", desc: "The only planet known to support life.", id: "HCDVN7DCzYE" },
-            { title: "7. The Moon", desc: "Earth's constant companion and the cause of our tides.", id: "6AviDjR9mmo" },
-            { title: "8. Mars (Detailed)", desc: "A deeper look into Mars mechanics.", id: "E-PuUs25rJA" },
-            { title: "9. Jupiter 101", desc: "The King of Planets. Massive, stormy, and gaseous.", id: "PtkqwslbLY8" },
-            { title: "10. Saturn 101", desc: "Famous for its spectacular and complex ring system.", id: "epZdZaEQhS0" },
-            { title: "11. Uranus 101", desc: "The sideways planet. An ice giant with a unique tilt.", id: "m4NXbFOiOGk" },
-            { title: "12. Neptune 101", desc: "The windy, cold, and distant ice giant.", id: "NStn7zZKXfE" },
-            { title: "13. Pluto 101", desc: "The beloved dwarf planet in the Kuiper Belt.", id: "-iZio70bd-M" },
-            { title: "14. Exoplanets", desc: "Planets orbiting stars other than our Sun.", id: "EUU0-ZpFoK4" },
-            { title: "15. Meteors & Meteorites", desc: "Space rocks: shooting stars and impactors.", id: "zkglsg0K1IY" },
-            { title: "16. Black Holes", desc: "The ultimate gravity wells where not even light escapes.", id: "kOEDG3j1bjs" }
+            { title: "The Solar System", desc: "An overview of our cosmic neighborhood.", id: "EFO_bsg1sw8" },
+            { title: "The Sun", desc: "The star at the center of our solar system.", id: "libKVRa01L8" },
+            { title: "Mercury", desc: "The closest planet to the Sun.", id: "2HoTK_Gqi2Q" },
+            { title: "Venus", desc: "Earth's toxic, volcanic twin.", id: "0KBjnNuhRHs" },
+            { title: "Earth", desc: "Our home planet and the only known harbor of life.", id: "BvXa1n9fjow" },
+            { title: "The Moon", desc: "Earth's natural satellite and its phases.", id: "HCDVN7DCzYE" },
+            { title: "Mars", desc: "The Red Planet and the search for ancient life.", id: "E-PuUs25rJA" },
+            { title: "Asteroid Belt", desc: "The rocky remnants between Mars and Jupiter.", id: "PtkqwslbLY8" },
+            { title: "Jupiter", desc: "The largest planet, a gas giant with a Great Red Spot.", id: "epZdZaEQhS0" },
+            { title: "Saturn", desc: "The jewel of the solar system with its stunning rings.", id: "m4NXbFOiOGk" },
+            { title: "Uranus", desc: "The sideways-spinning ice giant.", id: "NStn7zZKXfE" },
+            { title: "Neptune", desc: "The windy, blue ice giant at the edge of the planets.", id: "-iZio70bd-M" },
+            { title: "Pluto & Dwarf Planets", desc: "The fascinating worlds of the Kuiper Belt.", id: "6AviDjR9mmo" },
+            { title: "Comets", desc: "Dirty snowballs from the outer solar system.", id: "zkglsg0K1IY" },
+            { title: "Meteors & Meteorites", desc: "Space rocks: shooting stars and impactors.", id: "EUU0-ZpFoK4" },
+            { title: "Black Holes", desc: "The ultimate gravity wells where not even light escapes.", id: "kOEDG3j1bjs" }
         ];
 
         let currentIndex = 0;
+        const dropdown = document.getElementById("mainTopicSelect");
 
+        window.onload = function() {
+            // Populate the dropdown with just the topic names (no numbers)
+            lessons.forEach((lesson, index) => {
+                let opt = document.createElement("option");
+                opt.value = index;
+                opt.text = lesson.title; // Only writes "The Solar System", "Mercury", etc.
+                dropdown.appendChild(opt);
+            });
+            // Load the first video by default
+            loadLesson(0);
+        };
+
+        // This forces the video to change when you pick a new topic from the dropdown
+        function jumpToLesson(index) {
+            currentIndex = parseInt(index);
+            loadLesson(currentIndex);
+        }
+
+        // Core logic to change everything safely
         function loadLesson(index) {
             const lesson = lessons[index];
-            document.getElementById("lesson-title").innerText = lesson.title;
+            
+            // 1. Sync dropdown selection with current video
+            dropdown.value = index;
+            
+            // 2. Update Counter and Description
             document.getElementById("lesson-counter").innerText = `Lesson ${index + 1} of ${lessons.length}`;
             document.getElementById("lesson-desc").innerText = lesson.desc;
-            document.getElementById("video-frame").src = `https://www.youtube.com/embed/${lesson.id}`;
-
-            document.getElementById("prev-btn").disabled = (index === 0);
             
+            // 3. FORCE the video source to update
+            const videoFrame = document.getElementById("topicVideo");
+            videoFrame.src = `https://www.youtube.com/embed/${lesson.id}`;
+
+            // Handle Previous Button State
+            document.getElementById("prev-btn").disabled = (index === 0);
+            document.getElementById("prev-btn").style.opacity = (index === 0) ? "0.5" : "1";
+            document.getElementById("prev-btn").style.cursor = (index === 0) ? "not-allowed" : "pointer";
+            
+            // Handle Next/Quiz Button State
             const nextBtn = document.getElementById("next-btn");
             if (index === lessons.length - 1) {
                 nextBtn.innerText = "Take Quiz";
@@ -78,12 +151,14 @@
             }
         }
 
+        // Handles Next/Prev buttons
         function changeLesson(direction) {
-            currentIndex += direction;
-            loadLesson(currentIndex);
+            let newIndex = currentIndex + direction;
+            if (newIndex >= 0 && newIndex < lessons.length) {
+                currentIndex = newIndex;
+                loadLesson(currentIndex);
+            }
         }
-
-        window.onload = function() { loadLesson(0); };
     </script>
 </body>
 </html>

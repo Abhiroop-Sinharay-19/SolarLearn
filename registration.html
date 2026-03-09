@@ -4,28 +4,110 @@
     <meta charset="UTF-8">
     <title>Register - SolarLearn</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Setting the panel to exactly 6 inches as requested */
+        .register-panel {
+            max-width: 6in !important;
+            width: 100%;
+            margin: 20px auto;
+        }
+        /* Ensuring the form-alert is styled and hidden by default */
+        .form-alert {
+            display: none;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .form-alert.error { background: rgba(255, 0, 0, 0.2); border: 1px solid #ff4d4d; color: #ff4d4d; }
+        .form-alert.success { background: rgba(0, 255, 0, 0.2); border: 1px solid #2ecc71; color: #2ecc71; }
+    </style>
 </head>
-<body>
-    <div class="container" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-        <div class="glass-panel" style="max-width: 500px;">
-            <h2>Course Registration</h2>
-            <p>Join the "Solar System & Eclipse" Masterclass</p>
+<body class="registration-page">
+    <div class="container" style="display:flex; justify-content:center; align-items:center; min-height:100vh; padding: 40px 0;">
+        
+        <form class="glass-panel register-panel" id="registerForm">
+            <h1>Create Account</h1>
+            <p style="text-align:center; margin-bottom: 20px;">Join the "Solar System & Eclipse" Masterclass</p>
             
-            <form action="home.html">
-                <input type="text" placeholder="Full Name" required>
-                <input type="email" placeholder="Email Address" required>
-                <input type="password" placeholder="Create Password" required>
-                
-                <select>
-                    <option>Beginner: The Solar System</option>
-                    <option>Advanced: Eclipses & Mechanics</option>
-                </select>
+            <div id="formAlert" class="form-alert"></div>
 
-                <button type="submit">Complete Registration</button>
-            </form>
-            <br>
-            <a href="index.html" style="font-size: 0.9rem; color: #aaa;">Back to Landing Page</a>
-        </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>First Name *</label>
+                    <input type="text" id="firstName" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Last Name *</label>
+                    <input type="text" id="lastName" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Email *</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password *</label>
+                    <input type="password" id="password" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm Password *</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Gender</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="gender" value="Male"> Male</label>
+                        <label><input type="radio" name="gender" value="Female"> Female</label>
+                        <label><input type="radio" name="gender" value="Other"> Other</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="age">
+                </div>
+
+                <div class="form-group">
+                    <label>Education Level</label>
+                    <select id="education">
+                        <option value="">Select Education</option>
+                        <option>School Student</option>
+                        <option>Undergraduate</option>
+                        <option>Postgraduate</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Interest in Astronomy</label>
+                    <select id="interest">
+                        <option value="">Select Level</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Bio</label>
+                    <textarea id="bio" rows="3" style="width:100%; background:rgba(255,255,255,0.1); color:white; border:1px solid rgba(255,255,255,0.3); border-radius:5px; padding:10px;"></textarea>
+                </div>
+            </div>
+
+            <button type="submit" style="width:100%; margin-top:20px;">Register Now</button>
+            
+            <div style="margin-top: 20px; text-align: center;">
+                <a href="index.html" style="font-size:0.9rem; color:#aaa; text-decoration: none;">&larr; Back to Landing Page</a>
+            </div>
+        </form>
     </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

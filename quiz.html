@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz - SolarLearn</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="sidebar">
+            <h2>SolarLearn</h2>
+            <a href="home.html">Home</a>
+            <a href="learning.html">Learning Module</a>
+            <a href="assessment.html" style="background: var(--eclipse-gold); color: black;">Assessment</a>
+            <a href="feedback.html">Feedback</a>
+        </nav>
+
+        <main class="main-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1 id="quizTitle" style="color: var(--eclipse-gold);">Loading Quiz...</h1>
+                <a href="assessment.html" style="color: #aaa; text-decoration: none;">&larr; Back to Assessments</a>
+            </div>
+
+            <div class="glass-panel quiz-container" id="quizContainer">
+                <form id="quizForm">
+                    <div id="questionsContainer">
+                        </div>
+                    
+                    <div id="quizResult" style="display: none; padding: 20px; background: rgba(46, 204, 113, 0.2); border: 1px solid #2ecc71; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 1.2rem; color: white;">
+                        </div>
+
+                    <button type="submit" id="submitQuizBtn" style="width: 100%; font-size: 1.1rem; padding: 15px;">Submit Answers</button>
+                    <button type="button" id="backToAssessmentsBtn" style="display: none; width: 100%; font-size: 1.1rem; padding: 15px; margin-top: 10px; background: transparent; border: 1px solid var(--eclipse-gold); color: white;" onclick="window.location.href='assessment.html'">Return to Assessments</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

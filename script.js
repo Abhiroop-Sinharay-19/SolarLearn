@@ -1,24 +1,71 @@
-/* ---------- REGISTRATION & LEARNING PAGE SAFETY ---------- */
 document.addEventListener("DOMContentLoaded", function() {
 
+    /* ---------- REGISTER FORM VALIDATION ---------- */
+    const form = document.getElementById("registerForm");
+    const alertBox = document.getElementById("formAlert");
+
+    if (form && alertBox) {
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const firstName = document.getElementById("firstName").value.trim();
+            const lastName = document.getElementById("lastName").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const pass = document.getElementById("password").value;
+            const cpass = document.getElementById("confirmPassword").value;
+
+            const showMsg = (msg, isError) => {
+                alertBox.className = isError ? "form-alert error" : "form-alert success";
+                alertBox.style.display = "block";
+                alertBox.innerText = msg;
+                
+                form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+            if (firstName === "" || lastName === "") {
+                showMsg("Please enter both your first and last name.", true);
+                return;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                showMsg("Please enter a valid email address.", true);
+                return;
+            }
+
+            if (pass.length < 6) {
+                showMsg("Password must be at least 6 characters long.", true);
+                return;
+            }
+
+            
+            if (pass !== cpass) {
+                showMsg("Passwords do not match.", true);
+                return;
+            }
+
+            showMsg("Account created successfully! Redirecting...", false);
+
+            setTimeout(() => {
+                window.location.href = "home.html";
+            }, 2000);
+        });
+    }
+
     /* ---------- LEARNING MODULE TOPIC SELECT ---------- */
-    // Ensure this script only runs on the learning page, where these elements exist
     const topicSelect = document.getElementById("topicSelect");
     const videoFrame = document.getElementById("topicVideo");
 
     if (topicSelect && videoFrame) {
         topicSelect.addEventListener("change", function() {
             const topic = this.value;
-            // You can add logic here to fetch video based on selection for learning.html if needed.
         });
     }
 });
 
 /* ---------- ASSESSMENT & QUIZ LOGIC ---------- */
 
-// Database featuring exactly 10 questions per quiz
 const quizData = {
-    1: [ // Lesson 1: The Solar System
+    1: [
         { q: "What is at the center of our Solar System?", options: ["The Earth", "The Moon", "The Sun", "Jupiter"], answer: 2 },
         { q: "How many planets are currently recognized in our Solar System?", options: ["7", "8", "9", "10"], answer: 1 },
         { q: "Which planet is closest to the Sun?", options: ["Venus", "Earth", "Mercury", "Mars"], answer: 2 },
@@ -30,7 +77,7 @@ const quizData = {
         { q: "Approximately how old is the Solar System?", options: ["4.6 billion years", "1 million years", "14 billion years", "6000 years"], answer: 0 },
         { q: "What is the boundary of the solar system called?", options: ["Heliopause", "Event Horizon", "Terminator", "Ozone layer"], answer: 0 }
     ],
-    2: [ // Lesson 2: The Sun
+    2: [ 
         { q: "What two elements primarily make up the Sun?", options: ["Oxygen & Carbon", "Hydrogen & Helium", "Nitrogen & Iron", "Rock & Ice"], answer: 1 },
         { q: "What is the outermost layer of the Sun's atmosphere?", options: ["Photosphere", "Chromosphere", "Core", "Corona"], answer: 3 },
         { q: "What type of star is our Sun?", options: ["Red Giant", "White Dwarf", "Yellow Dwarf", "Neutron Star"], answer: 2 },
@@ -42,7 +89,7 @@ const quizData = {
         { q: "What phenomenon causes auroras on Earth?", options: ["Lunar Eclipses", "Solar Wind/Flares", "Comet Dust", "Asteroids"], answer: 1 },
         { q: "Will the Sun ever become a Black Hole?", options: ["Yes", "No, it is not massive enough", "Only in 1 billion years", "It already is one"], answer: 1 }
     ],
-    // A default 10-question set that safely loads for lessons 3-16 until they are filled out.
+
     "default": [ 
         { q: "Which planet is known as the Earth's 'Twin' due to its size?", options: ["Mars", "Venus", "Neptune", "Uranus"], answer: 1 },
         { q: "What is the primary component of the Martian atmosphere?", options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Helium"], answer: 2 },
@@ -63,7 +110,6 @@ const lessonTitles = [
     "Pluto & Dwarf Planets", "Comets", "Meteors & Meteorites", "Black Holes"
 ];
 
-// Logic for assessment.html (List generation)
 const quizListContainer = document.getElementById("quizListContainer");
 if (quizListContainer) {
     for (let i = 1; i <= 16; i++) {
@@ -85,21 +131,19 @@ if (quizListContainer) {
     }
 }
 
-// Logic for quiz.html (Dynamic Quiz Generation & Scoring)
 const quizForm = document.getElementById("quizForm");
 if (quizForm) {
     const urlParams = new URLSearchParams(window.location.search);
-    const lessonNum = urlParams.get('lesson') || 1; // Default to 1 if no param
+    const lessonNum = urlParams.get('lesson') || 1;
     const questionsContainer = document.getElementById("questionsContainer");
     const quizTitle = document.getElementById("quizTitle");
     
-    // Set Title
+    
     quizTitle.innerText = `Lesson ${lessonNum}: ${lessonTitles[lessonNum-1]} Quiz`;
 
-    // Fetch the 10 questions (specific lesson data, or default if not yet written)
+    
     const questions = quizData[lessonNum] || quizData["default"];
 
-    // Render questions dynamically
     questions.forEach((qObj, index) => {
         const qBlock = document.createElement("div");
         qBlock.className = "question-block";
@@ -123,14 +167,12 @@ if (quizForm) {
         questionsContainer.appendChild(qBlock);
     });
 
-    // Handle Quiz Form Submission
     quizForm.addEventListener("submit", function(e) {
         e.preventDefault();
         
         let score = 0;
         const formData = new FormData(quizForm);
 
-        // Calculate score
         questions.forEach((qObj, index) => {
             const userAnswer = parseInt(formData.get(`q${index}`));
             if (userAnswer === qObj.answer) {
@@ -138,34 +180,27 @@ if (quizForm) {
             }
         });
 
-        // Display Score Result
         const resultDiv = document.getElementById("quizResult");
         resultDiv.style.display = "block";
         const percentage = Math.round((score / questions.length) * 100);
         resultDiv.innerHTML = `You scored ${score} out of ${questions.length} (${percentage}%)`;
 
-        // Pass mark: 70% or higher
         if (percentage >= 70) {
             resultDiv.style.background = "rgba(46, 204, 113, 0.2)";
             resultDiv.style.borderColor = "#2ecc71";
             
-            // Mark as completed in localStorage
             localStorage.setItem(`quiz_completed_${lessonNum}`, "true");
         } else {
             resultDiv.style.background = "rgba(255, 77, 77, 0.2)";
             resultDiv.style.borderColor = "#ff4d4d";
             resultDiv.innerHTML += `<br><span style="font-size:0.9rem;">You need 70% to pass. Review the lesson and try again!</span>`;
         }
-
-        // Hide submit button, show return button
         document.getElementById("submitQuizBtn").style.display = "none";
         document.getElementById("backToAssessmentsBtn").style.display = "block";
         
-        // Disable all radio buttons to lock answers
         const allRadios = document.querySelectorAll('input[type="radio"]');
         allRadios.forEach(radio => radio.disabled = true);
         
-        // Scroll to result smoothly
         resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 }

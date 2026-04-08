@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Space Game - SolarLearn</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <nav class="sidebar">
+            <h2>SolarLearn</h2>
+            <a href="home.html">Home</a>
+            <a href="learning.html">Learning Module</a>
+            <a href="assessment.html">Assessment</a>
+            <a href="feedback.html">Feedback</a>
+            <a href="game.html" style="background: var(--eclipse-gold); color: black;">Space Game</a>
+            <a href="index.html" style="margin-top: auto; color: #ff6b6b;">Logout</a>
+        </nav>
+
+        <main class="main-content">
+            <h1>Space Reflex Game</h1>
+            <p>Hit stars for points. Avoid planets from our solar system.</p>
+
+            <div class="glass-panel game-panel">
+                <div class="game-header">
+                    <div>Score: <strong id="gameScore">0</strong></div>
+                    <div>Time Left: <strong id="gameTime">45</strong>s</div>
+                    <button id="gameStartBtn" type="button">Start Game</button>
+                </div>
+                <div id="gameMessage" class="game-message">Press start to begin.</div>
+                <div id="gameZone" class="game-zone" aria-label="Space game playing zone"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
